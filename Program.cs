@@ -159,6 +159,10 @@ namespace EnginetteClient
                     Program.Exit(1);
                 }
             }
+            else
+            {
+                Debug.Log("Sim Launcher", "Found Sim. Directory: " + Program.settings.SimExeLocation);
+            }
         }
 
         public static void GetPiranha(string filename)

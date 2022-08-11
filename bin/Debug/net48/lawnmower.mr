@@ -22,7 +22,7 @@ public node lawnmower {
     wires wires()
 
     crankshaft c0(
-        throw: 69 * units.mm / 2,
+        throw: 89 * units.mm / 2,
         flywheel_mass: 1.5 * units.lb,
         mass: 1 * units.lb,
         friction_torque: 1.0 * units.lb_ft,
@@ -59,9 +59,9 @@ public node lawnmower {
     intake intake(
         plenum_volume: 1.0 * units.L,
         plenum_cross_section_area: 10.0 * units.cm2,
-        intake_flow_rate: k_carb(50.0),
+        intake_flow_rate: k_carb(100.0),
         idle_flow_rate: k_carb(0.0),
-        idle_throttle_plate_position: 0.95,
+        idle_throttle_plate_position: 0.99,
         throttle_gamma: 1.0
     )
 
@@ -95,7 +95,7 @@ public node lawnmower {
     harmonic_cam_lobe lobe(
         duration_at_50_thou: 160 * units.deg,
         gamma: 1.1,
-        lift: 5000 * units.thou,
+        lift: 500 * units.thou,
         steps: 200
     )
 
@@ -127,6 +127,6 @@ public node lawnmower {
         vtwin90_distributor(
             wires: wires,
             timing_curve: timing_curve,
-            rev_limit: 5500 * units.rpm
+            rev_limit: 6000 * units.rpm
         ))
 }
