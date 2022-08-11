@@ -16,6 +16,7 @@ namespace EnginetteClient
 
         public static void Main(string[] args)
         {
+            Environment.CurrentDirectory = Microsoft.Win32.Registry.GetValue("HKEY_CLASSES_ROOT\\enginette-client", "Directory", null).ToString();
             Debug.Log("Program", "Program opened with " + args.Length + " argument(s).");
             Debug.Log("Program", "Loading settings...");
 
@@ -36,6 +37,7 @@ namespace EnginetteClient
             // resolve args
             // assuming we usin proto
             // enginette-client://url-engine=blah blah;url-camshaft=blah blah;
+            // enginette-client://filename=E:\projects\enginette-client\bin\Debug\net48\lawnmower.mr
 
             string engineFilename = "";
 
@@ -45,8 +47,12 @@ namespace EnginetteClient
                 {
                     Debug.Log("Program", "Program opened using website!");
                     Debug.Log("Program", "Resolving arguments...");
+                    Debug.Log("Program", "Main arg:" + args[0]);
 
                     string arguments = args[0].Remove(0, 19);
+                    arguments = arguments.Remove(arguments.Length - 1, 1);
+                    arguments = arguments.Replace("%20", " ");
+                    arguments = arguments.Replace("%5C", "\\");
                     string[] argumentList = arguments.Split(';');
                     foreach(string arg in argumentList)
                     {
@@ -169,14 +175,18 @@ namespace EnginetteClient
         {
             Debug.Log("Sim Launcher", "Getting piranha script...");
             string piranha = File.ReadAllText(filename);
+            Debug.Log("Sim Launcher", "Read piranha script. Source: " + filename);
 
             string nodeName = Path.GetFileNameWithoutExtension(filename);
+            Debug.Log("Sim Launcher", "Node name: " + nodeName);
 
             // write engine to engines.mr
             File.AppendAllLines(Program.settings.SimLocation + "\\..\\assets\\part-library\\engines\\engines.mr", new string[] { "public import \"" + nodeName + "\"" });
+            Debug.Log("Sim Launcher", "Written engine import to engines.mr");
 
             // write engine to \\assets\\part-library\\engines\\filename.mr
             File.WriteAllText(Program.settings.SimLocation + $"\\..\\assets\\part-library\\engines\\{nodeName}.mr", piranha);
+            Debug.Log("Sim Launcher", $"Written engine to {nodeName}.mr");
 
             // write test.mr
             string result = "import \"engine_sim.mr\"\n" +
@@ -188,6 +198,7 @@ namespace EnginetteClient
                             ")\n";
 
             File.WriteAllText(Program.settings.SimLocation + $"\\..\\assets\\test.mr", result);
+            Debug.Log("Sim Launcher", $"Written test to test.mr");
         }
     }
     
@@ -213,7 +224,7 @@ namespace EnginetteClient
         public static void Save()
         {
             logs.Add("SAVING LOGS...");
-            File.WriteAllLines("logs.txt", logs);
+            File.WriteAllLines(Program.appdata + "\\logs.txt", logs);
         }
     }
 }
