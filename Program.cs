@@ -50,7 +50,7 @@ namespace EnginetteClient
                     string[] argumentList = arguments.Split(';');
                     foreach(string arg in argumentList)
                     {
-                        if(arg.StartsWith("file-name"))
+                        if(arg.StartsWith("filename"))
                         {
                             engineFilename = arg.Split('=')[1];
                         }
@@ -101,7 +101,20 @@ namespace EnginetteClient
         {
             CheckSim();
             GetPiranha(filename);
+            Launch();
             Program.Exit(0);
+        }
+
+        public static void Launch()
+        {
+            using (System.Diagnostics.Process pro = new System.Diagnostics.Process())
+            {
+                pro.StartInfo.FileName = Program.settings.SimExeLocation;
+                pro.StartInfo.WorkingDirectory = Program.settings.SimLocation;
+                pro.StartInfo.UseShellExecute = true;
+
+                pro.Start();
+            }
         }
 
         public static void CheckSim()
@@ -109,8 +122,9 @@ namespace EnginetteClient
             Debug.Log("Sim Launcher", "Checking Sim...");
             if(Program.settings.SimLocation == "" || Program.settings.SimExeLocation == "")
             {
-                Debug.Log("Sim Launcher", "Sim not set asking user...");
+                Debug.Log("Sim Launcher", "Sim not set, asking user...");
 
+                /*
                 VistaOpenFileDialog fileDialog = new VistaOpenFileDialog();
                 fileDialog.Multiselect = false;
                 if(fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -126,12 +140,50 @@ namespace EnginetteClient
                     Debug.Log("Sim Launcher", "User clicked cancel :<");
                     Program.Exit(1);
                 }
+                */
+
+                Console.Write("Please insert sim directory: ");
+                string simPath = Console.ReadLine();
+
+                if(File.Exists(simPath))
+                {
+                    Program.settings.SimExeLocation = simPath;
+                    Program.settings.SimLocation = Path.GetDirectoryName(simPath);
+                    Debug.Log("Sim Launcher", "User inserted right settings :>");
+                    Debug.Log("Sim Launcher", "Saving settings...");
+                    Program.SaveSettings();
+                }
+                else
+                {
+                    Debug.Log("Sim Launcher", "User didn't insert correct settings :<");
+                    Program.Exit(1);
+                }
             }
         }
 
         public static void GetPiranha(string filename)
         {
-            Debug.Log("Sim Launcher", "Getting piranha scripts...");
+            Debug.Log("Sim Launcher", "Getting piranha script...");
+            string piranha = File.ReadAllText(filename);
+
+            string nodeName = Path.GetFileNameWithoutExtension(filename);
+
+            // write engine to engines.mr
+            File.AppendAllLines(Program.settings.SimLocation + "\\..\\assets\\part-library\\engines\\engines.mr", new string[] { "public import \"" + nodeName + "\"" });
+
+            // write engine to \\assets\\part-library\\engines\\filename.mr
+            File.WriteAllText(Program.settings.SimLocation + $"\\..\\assets\\part-library\\engines\\{nodeName}.mr", piranha);
+
+            // write test.mr
+            string result = "import \"engine_sim.mr\"\n" +
+                            "import \"part-library/part_library.mr\"\n" +
+                            "import \"video-scripts/454-tuning/engine_04.mr\"\n" +
+                            "\n" +
+                            "set_engine(\n" +
+                           $"    engine: {nodeName}()\n" +
+                            ")\n";
+
+            File.WriteAllText(Program.settings.SimLocation + $"\\..\\assets\\test.mr", result);
         }
     }
     
