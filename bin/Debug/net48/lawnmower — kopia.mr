@@ -16,7 +16,7 @@ public node lawnmower {
         name: "Lawnmower Engine",
         starter_torque: 200 * units.lb_ft,
         starter_speed: 1000 * units.rpm,
-        redline: 10000 * units.rpm
+        redline: 5000 * units.rpm
     )
 
     wires wires()
@@ -118,18 +118,15 @@ public node lawnmower {
         .add_sample(0000 * units.rpm, 45 * units.deg)
         .add_sample(1000 * units.rpm, 45 * units.deg)
         .add_sample(2000 * units.rpm, 45 * units.deg)
-        .add_sample(3000 * units.rpm, 45 * units.deg)
-        .add_sample(4000 * units.rpm, 50 * units.deg)
-		.add_sample(5000 * units.rpm, 50 * units.deg)
-		.add_sample(6000 * units.rpm, 80 * units.deg)
-		.add_sample(7000 * units.rpm, 85 * units.deg)
-		.add_sample(8000 * units.rpm, 90 * units.deg)
-		.add_sample(9000 * units.rpm, 95 * units.deg)
+        .add_sample(3000 * units.rpm, 50 * units.deg)
+        .add_sample(4000 * units.rpm, 55 * units.deg)
+		.add_sample(5000 * units.rpm, 60 * units.deg)
+		.add_sample(6000 * units.rpm, 65 * units.deg)
 
     engine.add_ignition_module(
         vtwin90_distributor(
             wires: wires,
             timing_curve: timing_curve,
-            rev_limit: 10000 * units.rpm
+            rev_limit: 6000 * units.rpm
         ))
 }

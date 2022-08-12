@@ -49,10 +49,6 @@
         "net48": {
           "targetAlias": "net48",
           "dependencies": {
-            "Ookii.Dialogs.WinForms": {
-              "target": "Package",
-              "version": "[4.0.0, )"
-            },
             "newtonsoft.json": {
               "target": "Package",
               "version": "[13.0.1, )"

@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="newtonsoft.json" Version="13.0.1" />
-    <PackageReference Include="Ookii.Dialogs.WinForms" Version="4.0.0" />
   </ItemGroup>
 
 </Project>

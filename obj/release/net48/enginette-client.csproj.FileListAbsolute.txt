@@ -2,15 +2,8 @@ E:\projects\enginette-client\bin\release\net48\enginette-client.exe.config
 E:\projects\enginette-client\bin\release\net48\enginette-client.exe
 E:\projects\enginette-client\bin\release\net48\enginette-client.pdb
 E:\projects\enginette-client\bin\release\net48\Newtonsoft.Json.dll
-E:\projects\enginette-client\bin\release\net48\Ookii.Dialogs.WinForms.dll
-E:\projects\enginette-client\bin\release\net48\System.Buffers.dll
-E:\projects\enginette-client\bin\release\net48\System.Memory.dll
-E:\projects\enginette-client\bin\release\net48\System.Numerics.Vectors.dll
-E:\projects\enginette-client\bin\release\net48\System.Resources.Extensions.dll
-E:\projects\enginette-client\bin\release\net48\System.Runtime.CompilerServices.Unsafe.dll
 E:\projects\enginette-client\obj\release\net48\enginette-client.csproj.AssemblyReference.cache
 E:\projects\enginette-client\obj\release\net48\enginette-client.csproj.SuggestedBindingRedirects.cache
-E:\projects\enginette-client\obj\release\net48\enginette-client.exe.config
 E:\projects\enginette-client\obj\release\net48\enginette-client.GeneratedMSBuildEditorConfig.editorconfig
 E:\projects\enginette-client\obj\release\net48\enginette-client.AssemblyInfoInputs.cache
 E:\projects\enginette-client\obj\release\net48\enginette-client.AssemblyInfo.cs

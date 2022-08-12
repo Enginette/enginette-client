@@ -3,7 +3,6 @@ using System.IO;
 //using System.Diagnostics;
 using System.Threading;
 using System.Collections.Generic;
-using Ookii.Dialogs.WinForms;
 using Newtonsoft.Json;
 
 namespace EnginetteClient
@@ -80,6 +79,7 @@ namespace EnginetteClient
         public static void Exit(int code)
         {
             Debug.Save();
+            SaveSettings();
             Environment.Exit(code);
         }
 
