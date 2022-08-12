@@ -181,7 +181,8 @@ namespace EnginetteClient
             Debug.Log("Sim Launcher", "Node name: " + nodeName);
 
             // write engine to engines.mr
-            File.AppendAllLines(Program.settings.SimLocation + "\\..\\assets\\part-library\\engines\\engines.mr", new string[] { "public import \"" + nodeName + "\"" });
+            if(!File.ReadAllText(Program.settings.SimLocation + "\\..\\assets\\part-library\\engines\\engines.mr").Contains("public import \"" + nodeName + "\""))
+                File.AppendAllLines(Program.settings.SimLocation + "\\..\\assets\\part-library\\engines\\engines.mr", new string[] { "public import \"" + nodeName + "\"" });
             Debug.Log("Sim Launcher", "Written engine import to engines.mr");
 
             // write engine to \\assets\\part-library\\engines\\filename.mr
