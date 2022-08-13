@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Enginette Client"
-#define MyAppVersion "1.1.1"
+#define MyAppVersion "1.1.2"
 #define MyAppPublisher "DDev"
 #define MyAppURL "https://enginette.netlify.app/"
 #define MyAppExeName "enginette-client.exe"

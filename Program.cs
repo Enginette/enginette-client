@@ -194,6 +194,7 @@ namespace EnginetteClient
             // write main.mr
             string result = "import \"engine_sim.mr\"\n" +
                             "import \"part-library/part_library.mr\"\n" +
+                            "import \"engines/kohler/kohler_ch750.mr\"\n" +
                            $"import \"engines/custom/{nodeName}.mr\"\n" +
                             "\n" +
                             "set_engine(\n" +
