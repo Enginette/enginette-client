@@ -147,7 +147,7 @@ namespace EnginetteClient
                     Program.Exit(1);
                 }
                 */
-
+                Console.WriteLine("Important note: version 1.3a is NOT supported from now on (i dont wanna code two diffrent algos)");
                 Console.Write("Please insert sim directory: ");
                 string simPath = Console.ReadLine();
 
@@ -181,25 +181,27 @@ namespace EnginetteClient
             Debug.Log("Sim Launcher", "Node name: " + nodeName);
 
             // write engine to engines.mr
-            if(!File.ReadAllText(Program.settings.SimLocation + "\\..\\assets\\part-library\\engines\\engines.mr").Contains("public import \"" + nodeName + "\""))
-                File.AppendAllLines(Program.settings.SimLocation + "\\..\\assets\\part-library\\engines\\engines.mr", new string[] { "public import \"" + nodeName + "\"" });
-            Debug.Log("Sim Launcher", "Written engine import to engines.mr");
+            //if(!File.ReadAllText(Program.settings.SimLocation + "\\..\\assets\\part-library\\engines\\engines.mr").Contains("public import \"" + nodeName + "\""))
+            //    File.AppendAllLines(Program.settings.SimLocation + "\\..\\assets\\part-library\\engines\\engines.mr", new string[] { "public import \"" + nodeName + "\"" });
+            //Debug.Log("Sim Launcher", "Written engine import to engines.mr");
 
-            // write engine to \\assets\\part-library\\engines\\filename.mr
-            File.WriteAllText(Program.settings.SimLocation + $"\\..\\assets\\part-library\\engines\\{nodeName}.mr", piranha);
-            Debug.Log("Sim Launcher", $"Written engine to {nodeName}.mr");
+            // write engine to \\assets\\engines\\custom\\filename.mr
+            if(!Directory.Exists(Program.settings.SimLocation + $"\\..\\assets\\engines\\custom"))
+                Directory.CreateDirectory(Program.settings.SimLocation + $"\\..\\assets\\engines\\custom");
+            File.WriteAllText(Program.settings.SimLocation + $"\\..\\assets\\engines\\custom\\{nodeName}.mr", piranha);
+            Debug.Log("Sim Launcher", $"Written engine to /custom/{nodeName}.mr");
 
-            // write test.mr
+            // write main.mr
             string result = "import \"engine_sim.mr\"\n" +
                             "import \"part-library/part_library.mr\"\n" +
-                            "import \"video-scripts/454-tuning/engine_04.mr\"\n" +
+                           $"import \"engines/custom/{nodeName}.mr\"\n" +
                             "\n" +
                             "set_engine(\n" +
                            $"    engine: {nodeName}()\n" +
                             ")\n";
 
-            File.WriteAllText(Program.settings.SimLocation + $"\\..\\assets\\test.mr", result);
-            Debug.Log("Sim Launcher", $"Written test to test.mr");
+            File.WriteAllText(Program.settings.SimLocation + $"\\..\\assets\\main.mr", result);
+            Debug.Log("Sim Launcher", $"Written test to main.mr");
         }
     }
     
