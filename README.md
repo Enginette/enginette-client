@@ -15,6 +15,8 @@
 # FAQ
 ### Q: The program doesn't start the simulator
  + A: Either you didn't enter the simulator exe file or file is not found on computer.
+### Q: I think I entered the correct exe file but it still doesn't start
+ + A: This means the file cannot be found.
 
 ### Q: How to enter a new simulator exe file?
  + A: Go to `%localappdata%\enginette-client` and delete `settings.json`. Now you can launch the simulator as normal and it will prompt you to insert the exe file location.
