@@ -19,7 +19,7 @@
  + A: This means the file cannot be found.
 
 ### Q: How to enter a new simulator exe file?
- + A: Go to `%localappdata%\enginette-client` and delete `settings.json`. Now you can launch the simulator as normal and it will prompt you to insert the exe file location.
+ + A: Go to `%localappdata%\enginette-client` and delete `settings.json`. Now you can launch the client from the website and it will prompt you to insert the exe file location.
 
 ### Q: Program doesn't do anything when opening
  + A: The program is **not** meant to be launched normally.  
