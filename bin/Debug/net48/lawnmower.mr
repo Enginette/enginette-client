@@ -1,5 +1,5 @@
 import "engine_sim.mr"
-import "../part_library.mr"
+import "../../part-library/part_library.mr"
 
 units units()
 constants constants()

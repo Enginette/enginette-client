@@ -7,6 +7,70 @@ using Newtonsoft.Json;
 
 namespace EnginetteClient
 {
+    public class Theme 
+    {
+        public string StartFullscreen { get; set; }
+        public string SpeedUnits { get; set; }
+        public string PressureUnits { get; set; }
+        public string TorqueUnits { get; set; }
+        public string PowerUnits { get; set; }
+
+        public Theme() 
+        {
+            StartFullscreen = "false";
+            SpeedUnits = "mph";
+            PressureUnits = "inHg";
+            TorqueUnits = "lb_ft";
+            PowerUnits = "hp";
+        }
+
+        public override string ToString()
+        {
+            string result = "";
+
+            result += "import \"engine_sim.mr\"" + "\n";
+            result += "\n";
+            result += "unit_names units()" + "\n";
+            result += "public node use_default_theme {" + "\n";
+            result += "    input start_fullscreen: " + StartFullscreen + ";" + "\n";
+            result += "    input speed_units: units." + SpeedUnits + ";" + "\n";
+            result += "    input pressure_units: units." + PressureUnits + ";" + "\n";
+            result += "    input torque_units: units." + TorqueUnits + ";" + "\n";
+            result += "    input power_units: units." + PowerUnits + ";" + "\n";
+            result += "\n";
+            result += "    set_application_settings(" + "\n";
+            result += "        start_fullscreen: start_fullscreen," + "\n";
+            result += "        speed_units: speed_units," + "\n";
+            result += "        pressure_units: pressure_units," + "\n";
+            result += "        torque_units: torque_units," + "\n";
+            result += "        power_units: power_units," + "\n";
+            result += "\n";
+            result += "        // Default Color Settings" + "\n";
+            result += "        color_background: 0x0E1012," + "\n";
+            result += "        color_foreground: 0xFFFFFF," + "\n";
+            result += "        color_shadow: 0x0E1012," + "\n";
+            result += "        color_highlight1: 0xEF4545," + "\n";
+            result += "        color_highlight2: 0xFFFFFF," + "\n";
+            result += "        color_pink: 0xF394BE," + "\n";
+            result += "        color_red: 0xEE4445," + "\n";
+            result += "        color_orange: 0xF4802A," + "\n";
+            result += "        color_yellow: 0xFDBD2E," + "\n";
+            result += "        color_blue: 0x77CEE0," + "\n";
+            result += "        color_green: 0xBDD869" + "\n";
+            result += "    )" + "\n";
+            result += "}" + "\n";
+
+
+            return result;
+        }
+    
+        public bool IsDefault()
+        {
+            bool result = !(StartFullscreen == "false") && !(SpeedUnits == "mph") && !(PressureUnits == "inHg") && !(TorqueUnits == "lb_ft") && !(PowerUnits == "hp");
+            return result;
+        }
+    }
+
     public class Program
     {
         public static Settings settings;
@@ -36,9 +100,21 @@ namespace EnginetteClient
             // resolve args
             // assuming we usin proto
             // enginette-client://url-engine=blah blah;url-camshaft=blah blah;
+            // enginette-client://reset
             // enginette-client://filename=E:\projects\enginette-client\bin\Debug\net48\lawnmower.mr
+            // enginette-client://filename=E:\projects\enginette-client\bin\Debug\net48\lawnmower.mr;theme=default
+            // enginette-client://filename=E:\projects\enginette-client\bin\Debug\net48\lawnmower.mr;theme.something=value
 
             string engineFilename = "";
+            string themeName = "";
+
+            bool setupTheme = false;
+
+            string theme_start_fullscreen = "false";
+            string theme_speed_units = "mph";
+            string theme_pressure_units = "inHg";
+            string theme_torque_units = "lb_ft";
+            string theme_power_units = "hp";
 
             if(args.Length != 0)
             {
@@ -55,11 +131,76 @@ namespace EnginetteClient
                     string[] argumentList = arguments.Split(';');
                     foreach(string arg in argumentList)
                     {
+                        if(arg.StartsWith("reset"))
+                        {
+                            Debug.Log("Program", "Resetting settings...");
+                            settings = new Settings();
+                            settings.SimExeLocation = "";
+                            settings.SimLocation = "";
+                            SaveSettings();
+                            return;
+                        }
+
                         if(arg.StartsWith("filename"))
                         {
                             engineFilename = arg.Split('=')[1];
+                            Debug.Log("Program", "Engine filename set to:" + engineFilename);
+                            return;
+                        }
+
+                        if(arg.StartsWith("theme"))
+                        {
+                            themeName = arg.Split('=')[1];
+                            Debug.Log("Program", "Theme name set to:" + themeName);
+                            return;
+                        }
+
+                        if(arg.StartsWith("theme.start_fullscreen"))
+                        {
+                            setupTheme = true;
+                            theme_start_fullscreen = arg.Split('=')[1];
+                            Debug.Log("Program", "Theme name set to:" + theme_start_fullscreen);
+                            return;
+                        }
+
+                        if(arg.StartsWith("theme.speed_units"))
+                        {
+                            setupTheme = true;
+                            theme_speed_units = arg.Split('=')[1];
+                            Debug.Log("Program", "Theme speed units set to:" + theme_speed_units);
+                            return;
+                        }
+
+                        if(arg.StartsWith("theme.pressure_units"))
+                        {
+                            setupTheme = true;
+                            theme_pressure_units = arg.Split('=')[1];
+                            Debug.Log("Program", "Theme pressure units set to:" + theme_pressure_units);
+                            return;
+                        }
+
+                        if(arg.StartsWith("theme.torque_units"))
+                        {
+                            setupTheme = true;
+                            theme_torque_units = arg.Split('=')[1];
+                            Debug.Log("Program", "Theme torque units set to:" + theme_torque_units);
+                            return;
+                        }
+
+                        if(arg.StartsWith("theme.power_units"))
+                        {
+                            setupTheme = true;
+                            theme_power_units = arg.Split('=')[1];
+                            Debug.Log("Program", "Theme power units set to:" + theme_power_units);
+                            return;
                         }
                     }
+
+                    Theme theme = new Theme();
+                    theme.StartFullscreen = theme_start_fullscreen;
+                    theme.StartFullscreen = theme_start_fullscreen;
+                    theme.StartFullscreen = theme_start_fullscreen;
+                    theme.StartFullscreen = theme_start_fullscreen;
 
                     SimLauncher.LaunchSim(engineFilename);
                 }
@@ -171,7 +312,7 @@ namespace EnginetteClient
             }
         }
 
-        public static void GetPiranha(string filename)
+        public static void GetPiranha(string filename, string themeName = "default", Theme theme = null)
         {
             Debug.Log("Sim Launcher", "Getting piranha script...");
             string piranha = File.ReadAllText(filename);
@@ -189,20 +330,28 @@ namespace EnginetteClient
             if(!Directory.Exists(Program.settings.SimLocation + $"\\..\\assets\\engines\\custom"))
                 Directory.CreateDirectory(Program.settings.SimLocation + $"\\..\\assets\\engines\\custom");
             File.WriteAllText(Program.settings.SimLocation + $"\\..\\assets\\engines\\custom\\{nodeName}.mr", piranha);
-            Debug.Log("Sim Launcher", $"Written engine to /custom/{nodeName}.mr");
+            Debug.Log("Sim Launcher", $"Written engine to custom/{nodeName}.mr");
+
+            if(theme != null) {
+                File.WriteAllText(Program.settings.SimLocation + $"\\..\\assets\\themes\\enginette.mr", theme.ToString());
+                Debug.Log("Sim Launcher", $"Written theme to themes/enginette.mr");
+                themeName = "enginette";
+            }
 
             // write main.mr
             string result = "import \"engine_sim.mr\"\n" +
-                            "import \"part-library/part_library.mr\"\n" +
-                            "import \"engines/kohler/kohler_ch750.mr\"\n" +
+                            //"import \"part-library/part_library.mr\"\n" +
+                            //"import \"engines/kohler/kohler_ch750.mr\"\n" +
                            $"import \"engines/custom/{nodeName}.mr\"\n" +
+                           $"import \"themes/{themeName}.mr\"\n" +
                             "\n" +
+                           $"use_{themeName}_theme()\n" +
                             "set_engine(\n" +
                            $"    engine: {nodeName}()\n" +
                             ")\n";
 
             File.WriteAllText(Program.settings.SimLocation + $"\\..\\assets\\main.mr", result);
-            Debug.Log("Sim Launcher", $"Written test to main.mr");
+            Debug.Log("Sim Launcher", $"Written main to main.mr");
         }
     }
     
